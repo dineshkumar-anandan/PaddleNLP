@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import collections
+import random
 
 from ..transformers import AutoTokenizer
 from .task import Task
@@ -169,9 +170,10 @@ class DocPromptTask(Task):
                                 result, ans_pos, example, self._tokenizer, feature, True, all_key_probs, example_index
                             )
                         )
-                    if len(preds)>1:
-                        preds = preds[0]
-                        preds = [preds]
+                    if len(preds) > 1:
+                        max_prob = max(d['prob'] for d in preds)
+                        max_prob_dicts = [d for d in preds if d['prob'] == max_prob]
+                        preds = [random.choice(max_prob_dicts)]
                     if not preds:
                         preds.append({"value": "", "prob": 0.0, "start": -1, "end": -1})
                     else:
