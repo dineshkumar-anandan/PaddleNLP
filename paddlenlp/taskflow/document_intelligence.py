@@ -252,3 +252,4 @@ class DocPromptTask(Task):
         Construct the input spec for the convert dygraph model to static model.
         """
         pass
+
